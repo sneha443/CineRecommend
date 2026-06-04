@@ -14,8 +14,8 @@ import ast
 # 1. Dashboard Configuration & Premium Styling
 # ----------------------------------------------------
 st.set_page_config(
-    page_title="Cinematically | Movie Analytics",
-    page_icon="🎬",
+    page_title="AI Movie Recommendation Dashboard",
+    page_icon="🍿",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -123,7 +123,7 @@ if df.empty:
 # ----------------------------------------------------
 # 3. Sidebar Filtering Interface
 # ----------------------------------------------------
-st.sidebar.title("🎛️ Analytics Controls")
+st.sidebar.title("🎛️ Movie Filters")
 st.sidebar.markdown("Refine the dataset to specific niches.")
 
 min_year_bound = int(df['release_year'].min())
@@ -158,12 +158,17 @@ mask = (
     (df['primary_genre'].isin(selected_genres if selected_genres else available_genres))
 )
 filtered_df = df[mask]
+movie_search = st.text_input("🔍 Search Movie")
 
+if movie_search:
+    filtered_df = filtered_df[
+        filtered_df['title'].str.contains(movie_search, case=False, na=False)
+    ]
 
 # ----------------------------------------------------
 # 4. Main Dashboard Header & KPIs
 # ----------------------------------------------------
-st.title("Cinematically | Interactive Movie Analytics")
+st.title("🎬 AI Movie Recommendation Dashboard")
 st.markdown("Dive into 10 advanced visualizations spanning financials, correlations, popularity, and genre statistics.")
 
 k1, k2, k3, k4 = st.columns(4)
